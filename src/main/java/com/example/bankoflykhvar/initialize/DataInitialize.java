@@ -25,7 +25,7 @@ public class DataInitialize {
     public void addUser() {
         Role userRole = new Role();
         userRole.setRoleName(Role.RoleName.USER);
-        roleService.add(userRole);
+        roleService.save(userRole);
         User user = new User();
         user.setRoles(Set.of(userRole));
         user.setName("admin");
@@ -33,6 +33,6 @@ public class DataInitialize {
         user.setPhoneNumber("0445729402");
         LocalDate localDate = LocalDate.of(1992, 06, 12);
         user.setDateOfBirth(localDate);
-        userService.add(user);
+        userService.save(user);
     }
 }

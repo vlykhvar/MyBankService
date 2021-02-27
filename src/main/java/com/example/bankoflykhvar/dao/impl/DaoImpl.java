@@ -13,7 +13,7 @@ public abstract class DaoImpl<T> implements Dao<T> {
     }
 
     @Override
-    public T add(T t) {
+    public T save(T t) {
         Transaction transaction = null;
         Session session = null;
         try {

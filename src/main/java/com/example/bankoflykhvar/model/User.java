@@ -3,6 +3,7 @@ package com.example.bankoflykhvar.model;
 import com.sun.istack.NotNull;
 import java.time.LocalDate;
 import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +22,7 @@ public class User {
     @NotNull
     private LocalDate dateOfBirth;
     @NotNull
+    @Column(unique = true)
     private String phoneNumber;
     @NotNull
     private String password;

@@ -16,23 +16,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User add(User user) {
-        return userDao.add(user);
+    public User save(User user) {
+        return userDao.save(user);
     }
 
     @Override
     public User findById(Long id) {
-        return userDao.findById(id);
-    }
-
-    @Override
-    public void update(User user) {
-        userDao.update(user);
+        return userDao.findById(id).orElseThrow();
     }
 
     @Override
     public User findByPhoneNumber(String phoneNumber) {
-        return userDao.findByPhoneNumber(phoneNumber);
+        return userDao.findByPhoneNumber(phoneNumber).orElseThrow();
     }
 
     @Override

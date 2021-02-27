@@ -2,6 +2,7 @@ package com.example.bankoflykhvar.dao.impl;
 
 import com.example.bankoflykhvar.dao.UserDao;
 import com.example.bankoflykhvar.model.User;
+import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -14,12 +15,12 @@ public class UserDaoImp extends DaoImpl<User> implements UserDao {
     }
 
     @Override
-    public User findById(Long userId) {
+    public Optional<User> findById(Long userId) {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("Select u from User u"
                     + " join fetch u.roles where u.id = :userId", User.class)
                     .setParameter("userId", userId)
-                    .uniqueResultOptional().orElseThrow();
+                    .uniqueResultOptional();
         } catch (Exception e) {
             throw new RuntimeException("Can't get user on id " + userId);
         }
@@ -49,12 +50,12 @@ public class UserDaoImp extends DaoImpl<User> implements UserDao {
     }
 
     @Override
-    public User findByPhoneNumber(String phoneNumber) {
+    public Optional<User> findByPhoneNumber(String phoneNumber) {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("Select u from User u"
                     + " join fetch u.roles where u.phoneNumber = :phoneNumber", User.class)
                     .setParameter("phoneNumber", phoneNumber)
-                    .uniqueResultOptional().orElseThrow();
+                    .uniqueResultOptional();
         }
     }
 
