@@ -9,5 +9,7 @@ public interface UserService {
 
     User findByPhoneNumber(String phoneNumber);
 
-    boolean removeUser(Long id);
+    User update(User user);
+
+    void remove(Long id);
 }
