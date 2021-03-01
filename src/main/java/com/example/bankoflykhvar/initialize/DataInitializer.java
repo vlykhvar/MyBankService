@@ -1,7 +1,10 @@
 package com.example.bankoflykhvar.initialize;
 
+import com.example.bankoflykhvar.lib.Currency;
+import com.example.bankoflykhvar.model.Account;
 import com.example.bankoflykhvar.model.Role;
 import com.example.bankoflykhvar.model.User;
+import com.example.bankoflykhvar.service.AccountService;
 import com.example.bankoflykhvar.service.RoleService;
 import com.example.bankoflykhvar.service.UserService;
 import java.time.LocalDate;
@@ -14,15 +17,34 @@ import org.springframework.stereotype.Component;
 public class DataInitializer {
     private final UserService userService;
     private final RoleService roleService;
+    private final AccountService accountService;
 
     @Autowired
-    public DataInitializer(UserService userService, RoleService roleService) {
+    public DataInitializer(UserService userService,
+                           RoleService roleService,
+                           AccountService accountService) {
         this.userService = userService;
         this.roleService = roleService;
+        this.accountService = accountService;
     }
 
     @PostConstruct
-    public void addUser() {
+    public void initializeApp() {
+        addUser();
+        addAccount();
+    }
+
+    private void addAccount() {
+        Account account = new Account();
+        account.setActive(true);
+        account.setAccountNumber("000001");
+        account.setBalance(1000000d);
+        account.setCurrency(Currency.USD);
+        account.setUser(userService.findByPhoneNumber("00000"));
+        accountService.add(account);
+    }
+
+    private void addUser() {
         Role userRole = new Role();
         userRole.setRoleName(Role.RoleName.USER);
         roleService.save(userRole);
@@ -30,7 +52,7 @@ public class DataInitializer {
         user.setRoles(Set.of(userRole));
         user.setName("admin");
         user.setPassword("123");
-        user.setPhoneNumber("0445729402");
+        user.setPhoneNumber("00000");
         LocalDate localDate = LocalDate.of(1992, 06, 12);
         user.setDateOfBirth(localDate);
         userService.save(user);
