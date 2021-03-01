@@ -3,6 +3,7 @@ package com.example.bankoflykhvar.service.impl;
 import com.example.bankoflykhvar.model.User;
 import com.example.bankoflykhvar.repository.UserRepository;
 import com.example.bankoflykhvar.service.UserService;
+import exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,12 +23,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Long id) {
-        return userRepository.findById(id).orElseThrow();
+        return userRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Don't find user by id - " + id));
     }
 
     @Override
     public User findByPhoneNumber(String phoneNumber) {
-        return userRepository.findByPhoneNumber(phoneNumber).orElseThrow();
+        return userRepository.findByPhoneNumber(phoneNumber).orElseThrow(()
+                -> new EntityNotFoundException("Don't find user by phoneNumber - " + phoneNumber));
     }
 
     @Override
