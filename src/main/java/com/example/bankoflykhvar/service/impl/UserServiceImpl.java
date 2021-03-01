@@ -35,8 +35,8 @@ public class UserServiceImpl implements UserService {
 
     public User update(User user) {
         User newUser = findById(user.getId());
-        if (newUser == null) {
-            throw new EntityNotFoundException("Can't update " + user.toString());
+        if (newUser.equals(user)) {
+            throw new RuntimeException("The new data does not contain changes.");
         }
         return userRepository.save(user);
 
