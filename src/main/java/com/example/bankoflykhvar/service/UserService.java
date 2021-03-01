@@ -10,4 +10,6 @@ public interface UserService {
     User findByPhoneNumber(String phoneNumber);
 
     void remove(Long id);
+
+    User update(User user);
 }
