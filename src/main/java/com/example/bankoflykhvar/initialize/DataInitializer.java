@@ -11,12 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DataInitialize {
+public class DataInitializer {
     private final UserService userService;
     private final RoleService roleService;
 
     @Autowired
-    public DataInitialize(UserService userService, RoleService roleService) {
+    public DataInitializer(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }

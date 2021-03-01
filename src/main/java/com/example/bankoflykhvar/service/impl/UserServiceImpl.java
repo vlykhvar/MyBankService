@@ -5,9 +5,9 @@ import com.example.bankoflykhvar.repository.UserRepository;
 import com.example.bankoflykhvar.service.UserService;
 import exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
@@ -33,7 +33,6 @@ public class UserServiceImpl implements UserService {
                 -> new EntityNotFoundException("Don't find user by phoneNumber - " + phoneNumber));
     }
 
-    @Override
     public User update(User user) {
         return userRepository.save(user);
     }
