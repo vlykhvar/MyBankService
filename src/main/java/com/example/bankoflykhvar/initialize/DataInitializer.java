@@ -7,6 +7,7 @@ import com.example.bankoflykhvar.model.User;
 import com.example.bankoflykhvar.service.AccountService;
 import com.example.bankoflykhvar.service.RoleService;
 import com.example.bankoflykhvar.service.UserService;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 import javax.annotation.PostConstruct;
@@ -38,7 +39,7 @@ public class DataInitializer {
         Account account = new Account();
         account.setActive(true);
         account.setAccountNumber("000001");
-        account.setBalance(1000000d);
+        account.setBalance(BigDecimal.valueOf(1000000));
         account.setCurrency(Currency.USD);
         account.setUser(userService.findByPhoneNumber("00000"));
         accountService.add(account);

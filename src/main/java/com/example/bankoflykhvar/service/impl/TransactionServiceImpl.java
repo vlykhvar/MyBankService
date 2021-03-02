@@ -5,6 +5,7 @@ import com.example.bankoflykhvar.model.Transaction;
 import com.example.bankoflykhvar.repository.TransactionRepository;
 import com.example.bankoflykhvar.service.TransactionService;
 import exception.EntityNotFoundException;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.domain.PageRequest;
@@ -19,8 +20,9 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction save(Account accountTo, Account accountFrom, double amount) {
-        if (amount <= 0 || accountTo == null || accountFrom == null) {
+    public Transaction save(Account accountTo, Account accountFrom, BigDecimal amount) {
+        if (amount.compareTo(BigDecimal.valueOf(0)) <= 0
+                || accountTo == null || accountFrom == null) {
             throw new RuntimeException("wrong amount or accounts!");
         }
         Transaction transactionOutcoming = new Transaction();
@@ -30,7 +32,7 @@ public class TransactionServiceImpl implements TransactionService {
         transactionOutcoming.setDate(LocalDateTime.now());
         transactionOutcoming.setType(Transaction.Type.OUTCOMING);
         transactionRepository.save(transactionOutcoming);
-        accountFrom.setBalance(accountFrom.getBalance() - amount);
+        accountFrom.setBalance(accountFrom.getBalance().subtract(amount));
         Transaction transactionIncoming = new Transaction();
         transactionIncoming.setAccountFrom(accountFrom);
         transactionIncoming.setAccountTo(accountTo);
@@ -38,7 +40,7 @@ public class TransactionServiceImpl implements TransactionService {
         transactionIncoming.setDate(LocalDateTime.now());
         transactionOutcoming.setType(Transaction.Type.INCOMING);
         transactionRepository.save(transactionIncoming);
-        accountTo.setBalance(accountTo.getBalance() + amount);
+        accountTo.setBalance(accountTo.getBalance().add(amount));
         return transactionOutcoming;
     }
 

@@ -4,6 +4,7 @@ import com.example.bankoflykhvar.model.Account;
 import com.example.bankoflykhvar.repository.AccountRepository;
 import com.example.bankoflykhvar.service.AccountService;
 import exception.EntityNotFoundException;
+import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Double getBalance(String accountNumber) {
+    public BigDecimal getBalance(String accountNumber) {
         Account account = accountRepository.findAccountByAccountNumber(accountNumber)
                 .orElseThrow(() -> new EntityNotFoundException("Account was not find by number "
                         + accountNumber));
