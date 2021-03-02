@@ -29,6 +29,7 @@ public class TransactionServiceImpl implements TransactionService {
         transactionOutcoming.setAmount(amount);
         transactionOutcoming.setDate(LocalDateTime.now());
         transactionOutcoming.setType(Transaction.Type.OUTCOMING);
+        transactionRepository.save(transactionOutcoming);
         accountFrom.setBalance(accountFrom.getBalance() - amount);
         Transaction transactionIncoming = new Transaction();
         transactionIncoming.setAccountFrom(accountFrom);
@@ -36,10 +37,9 @@ public class TransactionServiceImpl implements TransactionService {
         transactionIncoming.setAmount(amount);
         transactionIncoming.setDate(LocalDateTime.now());
         transactionOutcoming.setType(Transaction.Type.INCOMING);
-        accountTo.setBalance(accountTo.getBalance() + amount);
-        transactionRepository.save(transactionOutcoming);
         transactionRepository.save(transactionIncoming);
-        return transactionRepository.save(transactionOutcoming);
+        accountTo.setBalance(accountTo.getBalance() + amount);
+        return transactionOutcoming;
     }
 
     public List<Transaction> getAllByAccount(int page, int size, Account account) {
