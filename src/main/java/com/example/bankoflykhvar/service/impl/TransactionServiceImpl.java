@@ -5,6 +5,8 @@ import com.example.bankoflykhvar.model.Transaction;
 import com.example.bankoflykhvar.repository.TransactionRepository;
 import com.example.bankoflykhvar.service.TransactionService;
 import exception.EntityNotFoundException;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,14 +24,23 @@ public class TransactionServiceImpl implements TransactionService {
         if (amount <= 0 || accountTo == null || accountFrom == null) {
             throw new RuntimeException("wrong amount or accounts!");
         }
-        accountTo.setBalance(accountTo.getBalance() + amount);
+        Transaction transactionOutcoming = new Transaction();
+        transactionOutcoming.setAccountFrom(accountFrom);
+        transactionOutcoming.setAccountTo(accountTo);
+        transactionOutcoming.setAmount(amount);
+        transactionOutcoming.setDate(LocalDateTime.now());
+        transactionOutcoming.setType(Transaction.Type.OUTCOMING);
         accountFrom.setBalance(accountFrom.getBalance() - amount);
-        Transaction transaction = new Transaction();
-        transaction.setAccountFrom(accountFrom);
-        transaction.setAccountTo(accountTo);
-        transaction.setAmount(amount);
-        transaction.setType(Transaction.Type.INCOMING);
-        return transactionRepository.save(transaction);
+        Transaction transactionIncoming = new Transaction();
+        transactionIncoming.setAccountFrom(accountFrom);
+        transactionIncoming.setAccountTo(accountTo);
+        transactionIncoming.setAmount(amount);
+        transactionIncoming.setDate(LocalDateTime.now());
+        transactionOutcoming.setType(Transaction.Type.INCOMING);
+        accountTo.setBalance(accountTo.getBalance() + amount);
+        transactionRepository.save(transactionOutcoming);
+        transactionRepository.save(transactionIncoming);
+        return transactionRepository.save(transactionOutcoming);
     }
 
     public List<Transaction> getAllByAccount(int page, int size, Account account) {
