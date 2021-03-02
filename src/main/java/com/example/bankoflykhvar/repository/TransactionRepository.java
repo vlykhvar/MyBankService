@@ -10,6 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     @Query("SELECT t FROM Transaction t join fetch t.accountFrom"
-            + " join fetch t.accountTo WHERE t.accountFrom = ?2")
+            + " join fetch t.accountTo WHERE t.accountFrom = ?2 OR t.accountTo = ?2")
     Optional<List<Transaction>> getAllByAccount(Pageable pageable, Account account);
 }
